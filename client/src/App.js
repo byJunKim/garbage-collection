@@ -4,16 +4,17 @@ import './App.css';
 import { Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ImageUploader from 'react-images-upload';
+import axios from 'axios';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { apiResponse: 'No response', pictures: [] };
+    this.state = { apiResponse: 'No response', selectedFile: null };
     this.onDrop = this.onDrop.bind(this);
   }
 
   callApi() {
-    fetch('http://localhost:9000/testApi')
+    fetch('http://localhost:9000/api')
       .then((res) => res.text())
       .then((res) => this.setState({ apiResponse: res }))
       .catch((err) => err);
@@ -23,13 +24,27 @@ class App extends Component {
     this.callApi();
   }
 
-onDrop(picture) {
+  onDrop(img) {
     this.setState({
-        pictures: this.state.pictures.concat(picture),
+      selectedFile: img,
     });
+  }
 
-    console.log(picture);
-}
+  componentDidUpdate() {
+    console.log(this.state);
+  }
+
+  uploadFile() {
+    const imgData = new FormData();
+    console.log('file', this.state.selectedFile)
+    imgData.append('file', this.state.selectedFile[0]);
+
+    axios.post('http://localhost:9000/api/upload', imgData, {
+    })
+      .then((res => {
+        console.log('res', res.statusText)
+      }));
+  }
 
 render() {
     return (
@@ -42,7 +57,7 @@ render() {
                 imgExtension={['.jpg', '.gif', '.png', '.gif']}
                 maxFileSize={5242880}
             />
-          <Button onClick= {this.handleClick}>Is it Recyclable?</Button>
+          <Button onClick= {this.uploadFile.bind(this)}>Is it Recyclable?</Button>
           <p>[{this.state.apiResponse}]</p>
           
         </header>

@@ -34,7 +34,7 @@ model = recycler()
 def takeImage(image):
     trans = transforms.ToTensor()
     image = trans(image)
-    model.load_state_dict(torch.load("drive/My Drive/recyclerDataset/Archive/3. 85% accuracy/recycler.pt"))
+    model.load_state_dict(torch.load("./trainedModel/recycler.pt"))
     output = model(image.view(-1, 3, 384, 512))
     output = F.softmax(output, dim = 1)
     prediction, idx = torch.max(output, 1)
