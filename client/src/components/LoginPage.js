@@ -22,7 +22,7 @@ class LoginPage extends React.Component {
 
   render() {
     return (
-        <form className='Login-form' action='/login' method='post'>
+        <form className='Login-form'>
             <input placeholder='Username'></input>
             <input placeholder='Password'></input>
             <button onClick={this.sendPostRequest}>Login</button>
