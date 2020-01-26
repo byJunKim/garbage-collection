@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
+router.post('/login', (req, res, next) => {
+  console.log('****************************************body', req.body)
   res.send('respond with a resource');
 });
 

@@ -1,11 +1,17 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import LoginPage from './components/LoginPage';
 
-class App extends Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { apiResponse: '' };
+    this.state = {
+      apiResponse: '',
+    };
+  }
+
+  showLoginPage = () => {
+    this.setState({ showLoginPage: true });
   }
 
   callApi() {
@@ -21,9 +27,10 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <button>Login</button>
+      <div className='App'>
+        <header className='App-header'>
+          <LoginPage></LoginPage>
+          <p>Don't have an account?</p>
           <button>Sign Up</button>
           <p>{this.state.apiResponse}</p>
         </header>
