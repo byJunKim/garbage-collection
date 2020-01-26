@@ -32,11 +32,12 @@ model = recycler()
 
 
 def takeImage(image):
-    model.load_state_dict(torch.load("modelLocation"))
+    trans = transforms.ToTensor()
+    image = trans(image)
+    model.load_state_dict(torch.load("drive/My Drive/recyclerDataset/Archive/3. 85% accuracy/recycler.pt"))
     output = model(image.view(-1, 3, 384, 512))
     output = F.softmax(output, dim = 1)
     prediction, idx = torch.max(output, 1)
     
-    idxToClass = dict(0:'Cardboard',1:'Glass',2:'Metal', 3:'Paper', 4:'Plastic', 5:'Trash')
-    #have a dict for idx to category
-    return idxToClass[idx]
+    idxToClass = dict({0:'Cardboard',1:'Glass',2:'Metal', 3:'Paper', 4:'Plastic', 5:'Trash'})
+    return idxToClass[int(idx)]
